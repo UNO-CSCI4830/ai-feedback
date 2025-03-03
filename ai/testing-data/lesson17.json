@@ -1,0 +1,10 @@
+{
+    "key_concept": "Use conditionals to control the flow of a program; detect and respond to user input.",
+    "rubric": {
+        "Extensive Evidence": "The creature only shakes when the user presses the mouse, and the text only appears when the user is not pressing the mouse. Only one conditional block is used, and the program is error-free.",
+        "Convincing Evidence": "The creature only shakes when the user presses the mouse, and the text only appears when the user is not pressing the mouse, but there may be small errors, such as problems with the size of the text or positioning of the creature.",
+        "Limited Evidence": "There is an else clause used, but there are major errors in the program that keep the program from running properly.",
+        "No Evidence": "There is no else clause."
+    },
+    "exemplar": "\nvar backdrop = createSprite(200,200);\nbackdrop.setAnimation(\"sky\");\nvar creature = createSprite(200,250);\ncreature.setAnimation(\"creature\");\ncreature.scale = 0.2;\nfunction draw() {\n  drawSprites();\n  //shake the sprite when the mouse is pressed\n  if (mouseDown(\"leftButton\")) {\n    creature.rotation = randomNumber(-5,5);\n  } else {\n    fill(\"black\");\n    textSize(40);\n    text(\"Press the mouse to shake the creature.\", 20, 50, 360, 100);\n  }\n}\n"
+}

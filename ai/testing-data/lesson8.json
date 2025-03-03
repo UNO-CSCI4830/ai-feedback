@@ -1,0 +1,10 @@
+{
+    "key_concept": "Create and use sprites.",
+    "rubric": {
+        "Extensive Evidence": "At least two sprites have been created with different animations that are drawn to the canvas at different locations. Each sprite has a unique and meaningful label.",
+        "Convincing Evidence": "At least two sprites were created with different animations that were drawn to the canvas. The sprites may not have different locations or unique and meaningful labels.",
+        "Limited Evidence": "At least one sprite has been created with an animation that is drawn to the canvas.",
+        "No Evidence": "No sprites were created or were created without an animation - shown by a gray square."
+    },
+    "exemplar": "\nvar sprite = createSprite(200, 200);\nsprite.setAnimation(\"crab_1\");\nvar b = createSprite(75, 125);\nb.setAnimation(\"fork_1\");\nvar c = createSprite(325, 125);\nc.setAnimation(\"knife_1\");\ndrawSprites();\n"
+}

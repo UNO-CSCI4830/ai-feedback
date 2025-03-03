@@ -1,0 +1,10 @@
+{
+    "key_concept": "Use loops to repeat behavior within a program.",
+    "rubric": {
+        "Extensive Evidence": "The sprite animates as described in the instructions. Other set up, such as creating the sprite, happen outside of the draw loop, and there are no extra blocks.",
+        "Convincing Evidence": "The sprite animates, but there may be small problems with the scene, such as creating sprites inside the draw loop or having extra calls to `drawSprites` or other extra code.",
+        "Limited Evidence": "The sprite animates, but there are major problems, such as leaving a \"trails\" of previous locations behind or other parts of the scene disappearing.",
+        "No Evidence": "The sprite does not animate."
+    },
+    "exemplar": "\nvar salt = createSprite(200,200);\nsalt.setAnimation(\"salt\");\nfunction draw() {\n  background(\"skyblue\");\n  salt.y = randomNumber(200,220);\n  drawSprites();\n}\n"
+}

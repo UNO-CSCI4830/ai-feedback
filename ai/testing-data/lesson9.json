@@ -1,0 +1,10 @@
+{
+    "key_concept": "Use dot notation to update a sprite's properties.",
+    "rubric": {
+        "Extensive Evidence": "The arrangement of sprites is identical to the example provided in the instructions.",
+        "Convincing Evidence": "The sprites have been resized to fit inside the circle. There may be some slight differences between the student's work and the provided example.",
+        "Limited Evidence": "The sprites have been resized, but are still too large to fit inside the circle.",
+        "No Evidence": "The code is either the same or has been changed in ways unrelated the assignment."
+    },
+    "exemplar": "\nbackground(\"burlywood\");\nfill(\"white\");\nellipse(200,200, 350);\nvar fries = createSprite(250,140);\nfries.setAnimation(\"fries\");\nvar burger = createSprite(110,200);\nburger.setAnimation(\"burger\");\nvar dessert = createSprite(240,270);\ndessert.setAnimation(\"watermelon\");\nfries.scale = 0.6;\nburger.scale = 0.6;\ndessert.scale = 0.6;\ndrawSprites();\n"
+}
