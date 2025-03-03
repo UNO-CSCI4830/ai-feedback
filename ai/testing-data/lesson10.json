@@ -1,0 +1,10 @@
+{
+    "key_concept": "Place text on the screen using a coordinate plane, use arguments to change the appearance of text.",
+    "rubric": {
+        "Extensive Evidence": "Two pieces of text appear on the screen in reasonable places, and the text pieces are different sizes.",
+        "Convincing Evidence": "The text block is used, and it appears on the screen in a reasonable place.",
+        "Limited Evidence": "The text block is used, but the text does not appear completely on the screen.",
+        "No Evidence": "No text blocks are used, or it contains so many errors that the program cannot run."
+    },
+    "exemplar": "\nvar grass = createSprite(200,200);\ngrass.setAnimation(\"floating_grass\");\nvar alien = createSprite(180,100);\nalien.setAnimation(\"alien\");\nalien.scale = 1.3;\nvar robot = createSprite(300,300);\nrobot.setAnimation(\"robot\");\nrobot.scale = 0.2;\ndrawSprites();\ntextSize(30);\ntext(\"It's over, Anakin!\", 25, 50);\ntextSize(25);\ntext(\"I have the high ground\", 25, 260);\n"
+}

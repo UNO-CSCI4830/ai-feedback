@@ -1,0 +1,10 @@
+{
+    "key_concept": "Use the counter pattern to increment or decrement sprite properties.",
+    "rubric": {
+        "Extensive Evidence": "The student's animation is identical to the example provided in the instructions.",
+        "Convincing Evidence": "The fish all move across the screen in the order indicated by the instructions.",
+        "Limited Evidence": "The counter pattern is used inside the draw loop to decrement the x position of the blue and green fish. The fish all move left across the screen, but not necessarily at the instructed speeds.",
+        "No Evidence": "The counter pattern has been used outside the draw loop, or not at all."
+    },
+    "exemplar": "\n// Students should use the counter patter on both the blueFish.x\n// and greenFish.x properties.  Exact numbers in the counter pattern\n// may vary, but blueFish.x hould change by a number greater than 2\n// and greenFish.x by a number less than 2.\n\nvar orangeFish = createSprite(400, randomNumber(0, 100));\norangeFish.setAnimation(\"orange_fish\");\nvar blueFish = createSprite(250, randomNumber(0, 200));\nblueFish.setAnimation(\"blue_fish\");\nvar greenFish = createSprite(300, randomNumber(200, 300));\ngreenFish.setAnimation(\"green_fish\");\n\nfunction draw() {\n  // Draw Background\n  background(\"navy\");\n  \n  // Update Values\n  blueFish.x = blueFish.x - 3;\n  orangeFish.x = orangeFish.x - 2;\n  greenFish.x = greenFish.x - 1;\n  \n  // Draw Animations\n  drawSprites();\n}\n"
+}

@@ -1,0 +1,10 @@
+{
+    "key_concept": "Detect and respond to user input from the keyboard.",
+    "rubric": {
+        "Extensive Evidence": "The sprite moves correctly in response to all four arrow keys. There are no extra `if` statements.",
+        "Convincing Evidence": "The sprite moves in response to multiple arrow keys, but may have some errors.",
+        "Limited Evidence": "The program uses an `if` statement to detect user input.",
+        "No Evidence": "The program does not detect user input."
+    },
+    "exemplar": "\nvar backdrop = createSprite(200,200);\nbackdrop.setAnimation(\"rainbow\");\nvar flyer = createSprite(200,200);\nflyer.setAnimation(\"wing_bot\");\n\nfunction draw() {\n  //move left when the left arrow is pressed\n  if (keyDown(\"left\")) {\n    flyer.x = flyer.x - 5;\n  }\n  //move right when the right arrow is pressed\n  if (keyDown(\"right\")) {\n    flyer.x = flyer.x + 5;\n  }\n  //move up when the up arrow is pressed\n  if (keyDown(\"up\")) {\n    flyer.y = flyer.y - 5;\n  }\n  //move down when the down arrow is pressed\n  if (keyDown(\"down\")) {\n    flyer.y = flyer.y + 5;\n  }\n  drawSprites();\n}\n"
+}
