@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Title to be displayed on The broweser Tab-->
+    <title>Generative AI Page</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h3>Select Your Profile</h3>
+    <select id="profileSelect">
+        <option value="">-- Select Profile --</option>
+        <option value="teacher.html">Teacher</option>
+        <option value="student.html">Student</option>
+    </select>
+    <button onclick="goToProfile()">Go</button>
+
+    <h3>Enter code here:</h3>
+    <input type="text" id="inputBox" placeholder="Type something...">
+    <button onclick="copyText()">Send for review</button>
+
+    <h3>Output:</h3>
+    <input type="text" id="outputBox" readonly>
+    <h3>Enter Rubric here:</h3>
+    <input type="text" id="inputBox" placeholder="Type something...">
+    <button onclick="copyText()">Submit rubric</button>
+    <h3>Output:</h3>
+    <input type="text" id="outputBox" readonly>
+    <h3>Enter Key Concpets here:</h3>
+    <input type="text" id="inputBox" placeholder="Type something...">
+    <button onclick="copyText()">Submit Key Concepts</button>
+
+    <h3>Output:</h3>
+    <input type="text" id="outputBox" readonly>
+
+    <script>
+        function copyText() {
+            const input = document.getElementById("inputBox").value;
+            document.getElementById("outputBox").value = input;
+        }
+        function goToProfile() {
+            const selectedPage = document.getElementById("profileSelect").value;
+            if (selectedPage) {
+                window.location.href = selectedPage;// Need to change to different profiles
+            } else {
+                alert("Please select a profile.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
