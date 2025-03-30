@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+    <!-- Student Profile Selector-->
     <h3>Select Your Profile</h3>
     <select id="profileSelect">
         <option value="">-- Select Profile --</option>
@@ -23,29 +23,43 @@
         <option value="student.html">Student</option>
     </select>
     <button onclick="goToProfile()">Go</button>
+    <!-- Student code -->
+    <h3>Enter Student Code here:</h3>
+    <input type="text" id="studentCode" placeholder="Type something...">
+    
+    <h3>Student Code:</h3>
+    <input type="text" id="studentRO" readonly>
+    <button onclick="copyText('studentCode', 'studentRO')">Send for review</button>
+    <!-- ------------------------------------------------------------------------------- -->
 
-    <h3>Enter code here:</h3>
-    <input type="text" id="inputBox" placeholder="Type something...">
-    <button onclick="copyText()">Send for review</button>
-
-    <h3>Output:</h3>
-    <input type="text" id="outputBox" readonly>
+    <!-- Example Code -->
+    <h3>Enter Example Code here:</h3>
+    <input type="text" id="exampleCode" placeholder="Type something...">
+    
+    <h3>Exmaple Code:</h3>
+    <input type="text" id="exampleRO" readonly>
+    <button onclick="copyText('exampleCode', 'exampleRO')">Set for reference</button>
+    <!-- ------------------------------------------------------------------------------- -->
+    <!-- Rubric -->
     <h3>Enter Rubric here:</h3>
-    <input type="text" id="inputBox" placeholder="Type something...">
-    <button onclick="copyText()">Submit rubric</button>
-    <h3>Output:</h3>
-    <input type="text" id="outputBox" readonly>
+    <input type="text" id="rubric" placeholder="Type something...">
+    
+    <h3>Rubric:</h3>
+    <input type="text" id="rubricRO" readonly>
+    <button onclick="copyText('rubric', 'rubricRO')">Submit rubric</button>
+    <!-- ------------------------------------------------------------------------------- -->
+    <!-- Key Concepts -->
     <h3>Enter Key Concpets here:</h3>
-    <input type="text" id="inputBox" placeholder="Type something...">
-    <button onclick="copyText()">Submit Key Concepts</button>
-
-    <h3>Output:</h3>
-    <input type="text" id="outputBox" readonly>
-
+    <input type="text" id="keyConcepts" placeholder="Type something...">
+    
+    <h3>Key Concepts:</h3>
+    <input type="text" id="keyConRO" readonly>
+    <button onclick="copyText('keyConcepts', 'keyConRO')">Submit Key Concepts</button>
+    
     <script>
-        function copyText() {
-            const input = document.getElementById("inputBox").value;
-            document.getElementById("outputBox").value = input;
+        function copyText(inputID, outputID) {
+            const input = document.getElementById(inputID).value;
+            document.getElementById(outputID).value = input;
         }
         function goToProfile() {
             const selectedPage = document.getElementById("profileSelect").value;
