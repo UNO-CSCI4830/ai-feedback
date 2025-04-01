@@ -1,0 +1,4 @@
+{
+    "student_code": "var sprite1 = createSprite(200, 200);\nsprite1.setAnimation(\"crab_1\");\nvar sprite2 = createSprite(200, 200);\nsprite2.setAnimation(\"fork_1\");\ndrawSprites();\n",
+    "code_grade": "Expected Output: Convincing Evidence"
+}
