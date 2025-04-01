@@ -1,4 +1,8 @@
 {
-    "student_code": "background(\"burlywood\");\nfill(\"white\");\nellipse(200,200, 350);\nvar fries = createSprite(250,140);\nfries.setAnimation(\"fries\");\nvar burger = createSprite(110,200);\nburger.setAnimation(\"burger\");\nvar dessert = createSprite(240,270);\ndessert.setAnimation(\"watermelon\");\nfries.scale = 1.5;\nburger.scale = 1.5;\ndessert.scale = 1.5;\ndrawSprites();\n",
-    "code_grade": "Expected Output: Convincing Evidence"
+    "student_codeL": "background(\"burlywood\");\nfill(\"white\");\nellipse(200,200, 350);\nvar fries = createSprite(250,140);\nfries.setAnimation(\"fries\");\nvar burger = createSprite(110,200);\nburger.setAnimation(\"burger\");\nvar dessert = createSprite(240,270);\ndessert.setAnimation(\"watermelon\");\nfries.scale = 1.5;\nburger.scale = 1.5;\ndessert.scale = 1.5;\ndrawSprites();\n",
+    "code_grade1": "Expected Output: Limited Evidence",
+    "student_codeC": "background(\"burlywood\");\nfill(\"white\");\nellipse(200,200, 350);\nvar fries = createSprite(260,150);\nfries.setAnimation(\"fries\");\nvar burger = createSprite(120,210);\nburger.setAnimation(\"burger\");\nvar dessert = createSprite(250,280);\ndessert.setAnimation(\"watermelon\");\nfries.scale = 0.55;\nburger.scale = 0.55;\ndessert.scale = 0.55;\ndrawSprites();\n",
+    "code_grade2": "Expected Output: Convincing Evidence",
+    "Student_CodeE": "\nbackground(\"burlywood\");\nfill(\"white\");\nellipse(200,200, 350);\nvar fries = createSprite(250,140);\nfries.setAnimation(\"fries\");\nvar burger = createSprite(110,200);\nburger.setAnimation(\"burger\");\nvar dessert = createSprite(240,270);\ndessert.setAnimation(\"watermelon\");\nfries.scale = 0.6;\nburger.scale = 0.6;\ndessert.scale = 0.6;\ndrawSprites();\n",
+    "Code_grade3": "Expected Output: Extensive Evidence"
 }

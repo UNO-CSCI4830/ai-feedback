@@ -1,0 +1,8 @@
+{
+    "student_codeN": "var backdrop = createSprite(200,200);\nbackdrop.setAnimation(\"sci_fi\");\nvar dinosaur = createSprite(200, 350);\ndinosaur.scale = 0.2;\ndinosaur.setAnimation(\"tyrannosaurus\");\n\nfunction draw() {\n  dinosaur.y = dinosaur.y - 5;\n  drawSprites();\n}",
+    "code_grade1": "Expected Output: No Evidence",
+    "student_codeL": "var backdrop = createSprite(200,200);\nbackdrop.setAnimation(\"sci_fi\");\nvar dinosaur = createSprite(200, 350);\ndinosaur.scale = 0.2;\ndinosaur.setAnimation(\"tyrannosaurus\");\nvar isSky = false;\n\nfunction draw() {\n  dinosaur.y = dinosaur.y - 5;\n  if (isSky) {\n    dinosaur.setAnimation(\"pterodactyl\");\n  }\n  drawSprites();\n}",
+    "code_grade2": "Expected Output: Limited Evidence",
+    "Student_CodeE": "var backdrop = createSprite(200,200);\nbackdrop.setAnimation(\"sci_fi\");\nvar dinosaur = createSprite(200, 350);\ndinosaur.scale = 0.2;\ndinosaur.setAnimation(\"tyrannosaurus\");\n\nfunction draw() {\n  dinosaur.y = dinosaur.y - 5;\n  if (dinosaur.y < 100) {\n    dinosaur.setAnimation(\"pterodactyl\");\n  }\n  drawSprites();\n}",
+    "Code_grade3": "Expected Output: Extensive Evidence"
+}
