@@ -1,76 +1,127 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <!--Title to be displayed on The broweser Tab-->
-    <title>Generative AI Page</title>
-    <meta charset="UTF-8">
-    <style>
-        * {
-            margin: 0;
-
-        }
-    </style>
-
+  <meta charset="UTF-8">
+  <title>Gen AI</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <!-- Student Profile Selector-->
-    <h3>Select Your Profile</h3>
-    <select id="profileSelect">
-        <option value="">-- Select Profile --</option>
-        <option value="teacher.html">Teacher</option>
-        <option value="student.html">Student</option>
-    </select>
-    <button onclick="goToProfile()">Go</button>
-    <!-- Student code -->
-    <h3>Enter Student Code here:</h3>
-    <input type="text" id="studentCode" placeholder="Type something...">
-    
-    <h3>Student Code:</h3>
-    <input type="text" id="studentRO" readonly>
-    <button onclick="copyText('studentCode', 'studentRO')">Send for review</button>
-    <!-- ------------------------------------------------------------------------------- -->
 
-    <!-- Example Code -->
-    <h3>Enter Example Code here:</h3>
-    <input type="text" id="exampleCode" placeholder="Type something...">
-    
-    <h3>Exmaple Code:</h3>
-    <input type="text" id="exampleRO" readonly>
-    <button onclick="copyText('exampleCode', 'exampleRO')">Set for reference</button>
-    <!-- ------------------------------------------------------------------------------- -->
-    <!-- Rubric -->
-    <h3>Enter Rubric here:</h3>
-    <input type="text" id="rubric" placeholder="Type something...">
-    
-    <h3>Rubric:</h3>
-    <input type="text" id="rubricRO" readonly>
-    <button onclick="copyText('rubric', 'rubricRO')">Submit rubric</button>
-    <!-- ------------------------------------------------------------------------------- -->
-    <!-- Key Concepts -->
-    <h3>Enter Key Concpets here:</h3>
-    <input type="text" id="keyConcepts" placeholder="Type something...">
-    
-    <h3>Key Concepts:</h3>
-    <input type="text" id="keyConRO" readonly>
-    <button onclick="copyText('keyConcepts', 'keyConRO')">Submit Key Concepts</button>
-    
-    <script>
-        function copyText(inputID, outputID) {
-            const input = document.getElementById(inputID).value;
-            document.getElementById(outputID).value = input;
-        }
-        function goToProfile() {
-            const selectedPage = document.getElementById("profileSelect").value;
-            if (selectedPage) {
-                window.location.href = selectedPage;// Need to change to different profiles
-            } else {
-                alert("Please select a profile.");
-            }
-        }
-    </script>
+  <div class="sidebar">
+    <h2>Student Profiles</h2>
+    <ul class="student-list" id="studentList"></ul>
+
+    <div class="add-student">
+      <input type="text" id="newStudentInput" placeholder="New student name">
+      <button onclick="addStudent()">Add</button>
+    </div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <h2>Select a student to view or submit AI feedback</h2>
+  </div>
+
+  <script>
+    const studentData = {
+      "Alice": {
+        code: "",
+        feedback: "No feedback yet"
+      },
+      "Bob": {
+        code: "",
+        feedback: "No feedback yet"
+      }
+    };
+
+    let selectedStudent = null;
+
+    function initStudentList() {
+      const list = document.getElementById("studentList");
+      list.innerHTML = "";
+      for (const name in studentData) {
+        const li = document.createElement("li");
+        li.textContent = name;
+        li.onclick = () => showStudentEditor(name);
+        list.appendChild(li);
+      }
+    }
+
+    function showStudentEditor(name) {
+      selectedStudent = name;
+      const student = studentData[name];
+      const content = `
+        <h2>Student: ${name}</h2>
+
+        <h3>Student Code:</h3>
+        <textarea id="studentCode" placeholder="Paste student code here...">${student.code}</textarea>
+
+        <h3>Key Concepts:</h3>
+        <textarea id="keyConcepts" placeholder="e.g., Loops, Conditionals, Functions..."></textarea>
+
+        <h3>Rubric Evaluation:</h3>
+        <div class="rubric-container">
+          <div class="rubric-section">
+            <h4>Extensive Evidence</h4>
+            <textarea id="extensiveEvidence" placeholder="Criteria for extensive evidence..."></textarea>
+          </div>
+          <div class="rubric-section">
+            <h4>Convincing Evidence</h4>
+            <textarea id="convincingEvidence" placeholder="Criteria for convincing evidence..."></textarea>
+          </div>
+          <div class="rubric-section">
+            <h4>Limited Evidence</h4>
+            <textarea id="limitedEvidence" placeholder="Criteria for limited evidence..."></textarea>
+          </div>
+          <div class="rubric-section">
+            <h4>No Evidence</h4>
+            <textarea id="noEvidence" placeholder="Criteria for no evidence..."></textarea>
+          </div>
+        </div>
+
+        <button class="store-btn" onclick="submitToAI()">Submit to AI</button>
+
+        <h3>AI Feedback:</h3>
+        <pre id="aiFeedback">${student.feedback}</pre>
+      `;
+      document.getElementById("mainContent").innerHTML = content;
+    }
+
+    function addStudent() {
+      const input = document.getElementById("newStudentInput");
+      const name = input.value.trim();
+      if (!name || studentData[name]) {
+        alert("Enter a unique student name.");
+        return;
+      }
+      studentData[name] = { code: "", feedback: "No feedback yet" };
+      initStudentList();
+      input.value = "";
+    }
+
+    function submitToAI() {
+      if (!selectedStudent) return;
+
+      const code = document.getElementById("studentCode").value.trim();
+      const keyConcepts = document.getElementById("keyConcepts").value.trim();
+      const rubric = {
+        extensive: document.getElementById("extensiveEvidence").value.trim(),
+        convincing: document.getElementById("convincingEvidence").value.trim(),
+        limited: document.getElementById("limitedEvidence").value.trim(),
+        none: document.getElementById("noEvidence").value.trim()
+      };
+
+      // Simulate AI Feedback generation
+      const feedback = `Code: ${code ? "Submitted" : "Missing"}\nKey Concepts: ${keyConcepts}\nRubric Summary:\n- Extensive: ${rubric.extensive}\n- Convincing: ${rubric.convincing}\n- Limited: ${rubric.limited}\n- No Evidence: ${rubric.none}`;
+
+      studentData[selectedStudent].code = code;
+      studentData[selectedStudent].feedback = feedback;
+
+      document.getElementById("aiFeedback").textContent = feedback;
+      alert("Student code and rubric submitted to AI successfully!");
+    }
+
+    window.onload = initStudentList;
+  </script>
 
 </body>
-
 </html>
