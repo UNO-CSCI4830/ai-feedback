@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -110,7 +110,8 @@ def evaluate():
     except json.JSONDecodeError:
         feedback = {"error": "AI returned invalid JSON", "response": result_text}
 
-    return render_template("index.html", feedback=json.dumps(feedback, indent=2))
+    # return render_template("index.html", feedback=json.dumps(feedback, indent=2))
+    return jsonify(feedback)
 
 if __name__ == "__main__":
     app.run()

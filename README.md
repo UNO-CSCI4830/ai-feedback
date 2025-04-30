@@ -16,4 +16,10 @@
     - Bash/Git: `touch .env`
 8) Add your Gemini API Key as `GEMINI_KEY=${key}`
     - Double-check that this file is being successfully ignored by the `.gitignore` file
-8) `flask --app app run` to run the app
+
+
+## Runningk the App
+
+1) `flask --app app run` to run the app
+2) Go to `https://http://localhost:5000/` in your browser
+3) Verify it works!

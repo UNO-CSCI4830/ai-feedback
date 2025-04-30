@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Gen AI</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
@@ -55,8 +55,11 @@
         <h3>Student Code:</h3>
         <textarea id="studentCode" placeholder="Paste student code here...">${student.code}</textarea>
 
-        <h3>Key Concepts:</h3>
-        <textarea id="keyConcepts" placeholder="e.g., Loops, Conditionals, Functions..."></textarea>
+        <h3>Key Concept:</h3>
+        <textarea id="keyConcept" placeholder="e.g., Loops, Conditionals, Functions..."></textarea>
+
+        <h3>Exemplar:</h3>
+        <textarea id="exemplar" placeholder="Exemplar Code"></textarea>
 
         <h3>Rubric Evaluation:</h3>
         <div class="rubric-container">
@@ -81,7 +84,7 @@
         <button class="store-btn" onclick="submitToAI()">Submit to AI</button>
 
         <h3>AI Feedback:</h3>
-        <pre id="aiFeedback">${student.feedback}</pre>
+        <pre id="aiFeedback">{{ feedback }}</pre>
       `;
       document.getElementById("mainContent").innerHTML = content;
     }
@@ -98,11 +101,12 @@
       input.value = "";
     }
 
-    function submitToAI() {
+    async function submitToAI() {
       if (!selectedStudent) return;
 
       const code = document.getElementById("studentCode").value.trim();
-      const keyConcepts = document.getElementById("keyConcepts").value.trim();
+      const keyConcept = document.getElementById("keyConcept").value.trim();
+      const exemplar = document.getElementById("exemplar").value.trim();
       const rubric = {
         extensive: document.getElementById("extensiveEvidence").value.trim(),
         convincing: document.getElementById("convincingEvidence").value.trim(),
@@ -110,6 +114,27 @@
         none: document.getElementById("noEvidence").value.trim()
       };
 
+      const body = new URLSearchParams();
+      body.append("student_code", code);
+      body.append("key_concept", keyConcept);
+      body.append("exemplar", exemplar);
+      body.append("rubric_extensive", rubric.extensive);
+      body.append("rubric_convincing", rubric.convincing);
+      body.append("rubric_limited", rubric.limited);
+      body.append("rubric_none", rubric.none);
+
+      const res = await fetch('/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+      const feedbackObj = await res.json();
+      const feedbackText = JSON.stringify(feedbackObj, null, 2);
+      document.getElementById('aiFeedback').textContent = feedbackText;
+
+
+
+      /*
       // Simulate AI Feedback generation
       const feedback = `Code: ${code ? "Submitted" : "Missing"}\nKey Concepts: ${keyConcepts}\nRubric Summary:\n- Extensive: ${rubric.extensive}\n- Convincing: ${rubric.convincing}\n- Limited: ${rubric.limited}\n- No Evidence: ${rubric.none}`;
 
@@ -118,6 +143,7 @@
 
       document.getElementById("aiFeedback").textContent = feedback;
       alert("Student code and rubric submitted to AI successfully!");
+      */
     }
 
     window.onload = initStudentList;
