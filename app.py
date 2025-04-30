@@ -60,8 +60,8 @@ Evaluation Guidelines
 -If the Student Program contains errors that prevent it from running or being properly evaluated, indicate this in the 'justification' and 'feedback.areas_for_improvement'. If possible, specify the type of error and its location (line number)."""
 
 @app.route("/", methods=["GET"])
-def form():
-    return render_template("form.html")
+def index():
+    return render_template("index.html")
 
 @app.route("/evaluate", methods=["POST"])
 def evaluate():
@@ -110,7 +110,7 @@ def evaluate():
     except json.JSONDecodeError:
         feedback = {"error": "AI returned invalid JSON", "response": result_text}
 
-    return render_template("form.html", feedback=json.dumps(feedback, indent=2))
+    return render_template("index.html", feedback=json.dumps(feedback, indent=2))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
