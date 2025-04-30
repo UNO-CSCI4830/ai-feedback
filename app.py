@@ -10,7 +10,7 @@ GEMINI_KEY = os.getenv("GEMINI_KEY")
 client = genai.Client(api_key=GEMINI_KEY)
 
 app = Flask(__name__)
-
+# Updated system prompt
 SYSTEM_PROMPT = """You are an expert code evaluator tasked with assessing student work according to a detailed rubric. You will be provided with the following inputs in a JSON format:
 
 - Key Concept: The central idea or skill that the student should demonstrate in their program.
@@ -111,6 +111,7 @@ def evaluate():
         feedback = {"error": "AI returned invalid JSON", "response": result_text}
 
     # return render_template("index.html", feedback=json.dumps(feedback, indent=2))
+    # now returns just the feedback as a JSON object
     return jsonify(feedback)
 
 if __name__ == "__main__":
