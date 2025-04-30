@@ -18,7 +18,7 @@
     - Double-check that this file is being successfully ignored by the `.gitignore` file
 
 
-## Runningk the App
+## Running the App
 
 1) `flask --app app run` to run the app
 2) Go to `https://http://localhost:5000/` in your browser
