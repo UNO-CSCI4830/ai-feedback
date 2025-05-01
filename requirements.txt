@@ -2,3 +2,6 @@ Flask==3.0.*
 python-dotenv==1.0.*
 google-generativeai==0.5.*
 google-genai
+pytest==7.4.*
+pytest-flask==1.3.*
+quickjs==1.19.*

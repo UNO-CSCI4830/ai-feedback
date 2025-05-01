@@ -23,3 +23,10 @@
 1) `flask --app app run` to run the app
 2) Go to `https://http://localhost:5000/` in your browser
 3) Verify it works!
+
+## Unit Testing
+
+There are two files - `test_routes` should be used to test the `app.py` file; `test_js_script` can be used to test the Javascript functions. It uses QuickJS to simulate a DOM.
+
+1) Run `pytest -v` in the project folder
+    - **BE CAREFUL** - the Python it makes actual API calls to Gemini, which costs you $$$ with your API key
