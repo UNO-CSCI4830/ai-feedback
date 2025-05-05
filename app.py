@@ -4,6 +4,7 @@ from google import genai
 from google.genai import types
 import os, json
 
+#global variable used to keep track of each student
 all_ratings = {
     'good_feedback': [],
     'bad_feedback': [],
