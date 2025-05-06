@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
   <title>Gen AI</title>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,6 +16,11 @@
     <div class="add-student">
       <input type="text" id="newStudentInput" placeholder="New student name">
       <button onclick="addStudent()">Add</button>
+    </div>
+
+
+    <div class="recommendation-button">
+      <button onclick="getClassRecommendations()">Get Class Recommendations</button>
     </div>
   </div>
 
@@ -32,6 +39,7 @@
         feedback: "No feedback yet"
       }
     };
+
 
     let selectedStudent = null;
 
@@ -110,7 +118,7 @@
         none: document.getElementById("noEvidence").value.trim()
       };
 
-      // Simulate AI Feedback generation
+
       const feedback = `Code: ${code ? "Submitted" : "Missing"}\nKey Concepts: ${keyConcepts}\nRubric Summary:\n- Extensive: ${rubric.extensive}\n- Convincing: ${rubric.convincing}\n- Limited: ${rubric.limited}\n- No Evidence: ${rubric.none}`;
 
       studentData[selectedStudent].code = code;
@@ -118,6 +126,28 @@
 
       document.getElementById("aiFeedback").textContent = feedback;
       alert("Student code and rubric submitted to AI successfully!");
+    }
+
+    function getClassRecommendations() {
+      const allFeedback = Object.values(studentData).map(s => s.feedback);
+      console.log("Sending feedback to AI:", allFeedback);
+
+      // Simulate fetch request to AI backend
+      fetch("/api/class-recommendations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ feedbackData: allFeedback })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("AI Recommendations:\n" + data.recommendations);
+      })
+      .catch(err => {
+        console.error("Failed to get recommendations:", err);
+        alert("Failed to fetch class recommendations.");
+      });
     }
 
     window.onload = initStudentList;
