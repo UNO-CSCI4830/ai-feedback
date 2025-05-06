@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Genreative AI</title>
+
+  <title>Gen AI</title>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,6 +17,7 @@
       <input type="text" id="newStudentInput" placeholder="New student name">
       <button onclick="addStudent()">Add</button>
     </div>
+
 
     <div class="recommendation-button">
       <button onclick="getClassRecommendations()">Get Class Recommendations</button>
@@ -36,6 +39,7 @@
         feedback: "No feedback yet"
       }
     };
+
 
     let selectedStudent = null;
 
@@ -113,6 +117,7 @@
         limited: document.getElementById("limitedEvidence").value.trim(),
         none: document.getElementById("noEvidence").value.trim()
       };
+
 
       const feedback = `Code: ${code ? "Submitted" : "Missing"}\nKey Concepts: ${keyConcepts}\nRubric Summary:\n- Extensive: ${rubric.extensive}\n- Convincing: ${rubric.convincing}\n- Limited: ${rubric.limited}\n- No Evidence: ${rubric.none}`;
 
