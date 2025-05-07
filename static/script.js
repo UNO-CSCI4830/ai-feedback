@@ -105,6 +105,9 @@ async function submitToAI() {
   }
 }
 
+// Store the recommendations data
+let recommendationsData = null;
+
 async function getClassRecommendations(test=false) {
   document.querySelector("#classButton").disabled = true;
   document.querySelector("#classButton").textContent = "Submitting...";
@@ -129,6 +132,15 @@ async function getClassRecommendations(test=false) {
   .then(res => res.json())
   .then(data => {
       console.log(data);
+      
+      // Store the recommendations data
+      recommendationsData = data;
+      
+      // Show the "View results" button
+      document.getElementById("viewResultsButton").style.display = "block";
+      
+      // Populate the modal with data
+      populateResultsModal(data);
 
       document.querySelector("#classButton").disabled = false;
       document.querySelector("#classButton").textContent = "Get Class Recommendations";
@@ -137,6 +149,53 @@ async function getClassRecommendations(test=false) {
       console.error("Failed to get recommendations:", err);
       //alert("Failed to fetch class recommendations.");
   });
+}
+
+// Function to toggle the modal visibility
+function toggleResultsModal() {
+  const modal = document.getElementById("resultsModal");
+  if (modal.style.display === "block") {
+    modal.style.display = "none";
+  } else {
+    modal.style.display = "block";
+  }
+}
+
+// Function to populate the modal with data
+function populateResultsModal(data) {
+  if (!data) {
+    console.log("No data to populate the modal.");
+    return;
+  } 
+  
+  // Clear previous content
+  document.querySelector("#positiveTrends").innerHTML = "";
+  document.querySelector("#roomForGrowth").innerHTML = "";
+  document.querySelector("#nextSteps").innerHTML = "";
+  
+  // positive trends
+  const positiveTrendsList = document.querySelector("#positiveTrends");
+  let htmlString = ""
+  data.positive_trends.forEach(trend => {
+    htmlString += `<li>${trend}</li>`;
+  });
+  positiveTrendsList.innerHTML = htmlString;
+  
+  // room for growth
+  const roomForGrowthList = document.querySelector("#roomForGrowth");
+  htmlString = ""
+  data.room_for_growth.forEach(trend => {
+    htmlString += `<li>${trend}</li>`;
+  });
+  roomForGrowthList.innerHTML = htmlString;
+  
+  // next steps
+  const nextStepsList = document.querySelector("#nextSteps");
+  htmlString = ""
+  data.next_steps.forEach(trend => {
+    htmlString += `<li>${trend}</li>`;
+  });
+  nextStepsList.innerHTML = htmlString;
 }
 
 window.onload = initStudentList;

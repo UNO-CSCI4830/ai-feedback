@@ -19,6 +19,7 @@
 
     <div class="recommendation-button">
       <button id="classButton" onclick="getClassRecommendations(true)">Get Class Recommendations</button>
+      <button id="viewResultsButton" onclick="toggleResultsModal()" style="display: none;">View results</button>
     </div>
   </div>
 
@@ -56,6 +57,28 @@
   </div>
 
 
+
+  <!-- Modal for displaying results -->
+  <div id="resultsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="toggleResultsModal()">&times;</span>
+      <h2>Class Recommendations</h2>
+      <div id="modalResults">
+        <div class="results-section">
+          <h3>Positive Trends</h3>
+          <ul id="positiveTrends"></ul>
+        </div>
+        <div class="results-section">
+          <h3>Room for Growth</h3>
+          <ul id="roomForGrowth"></ul>
+        </div>
+        <div class="results-section">
+          <h3>Next Steps</h3>
+          <ul id="nextSteps"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="/static/script.js"></script>
 
