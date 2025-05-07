@@ -1,14 +1,7 @@
 
 
 const studentData = {
-  "Alice": {
-      code: "",
-      feedback: "No feedback yet"
-  },
-  "Bob": {
-      code: "",
-      feedback: "No feedback yet"
-  }
+
 };
 
 let selectedStudent = null;
@@ -33,38 +26,18 @@ function showStudentEditor(name) {
       <h3>Student Code:</h3>
       <textarea id="studentCode" placeholder="Paste student code here...">${student.code}</textarea>
 
-      <h3>Key Concept:</h3>
-      <textarea id="keyConcept" placeholder="e.g., Loops, Conditionals, Functions..."></textarea>
-
-      <h3>Exemplar:</h3>
-      <textarea id="exemplar" placeholder="Exemplar Code"></textarea>
-
-      <h3>Rubric Evaluation:</h3>
-      <div class="rubric-container">
-          <div class="rubric-section">
-              <h4>Extensive Evidence</h4>
-              <textarea id="extensiveEvidence" placeholder="Criteria for extensive evidence..."></textarea>
-          </div>
-          <div class="rubric-section">
-              <h4>Convincing Evidence</h4>
-              <textarea id="convincingEvidence" placeholder="Criteria for convincing evidence..."></textarea>
-          </div>
-          <div class="rubric-section">
-              <h4>Limited Evidence</h4>
-              <textarea id="limitedEvidence" placeholder="Criteria for limited evidence..."></textarea>
-          </div>
-          <div class="rubric-section">
-              <h4>No Evidence</h4>
-              <textarea id="noEvidence" placeholder="Criteria for no evidence..."></textarea>
-          </div>
-      </div>
-
       <button class="store-btn" onclick="submitToAI()">Submit to AI</button>
 
       <h3>AI Feedback:</h3>
       <pre id="aiFeedback">${student.feedback}</pre>
   `;
   document.getElementById("mainContent").innerHTML = content;
+  document.querySelector("#studentCode").addEventListener("input", function() {
+    const code = this.value.trim();
+    if(selectedStudent) {
+        studentData[selectedStudent].code = code;
+    }
+  });
 }
 
 function addStudent() {
