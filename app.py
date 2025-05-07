@@ -4,6 +4,13 @@ from google import genai
 from google.genai import types
 import os, json
 
+#global variable used to keep track of each student
+all_ratings = {
+    'good_feedback': [],
+    'bad_feedback': [],
+    'ratings': []
+               }
+
 #Load API key from .env
 load_dotenv()
 GEMINI_KEY = os.getenv("GEMINI_KEY")
@@ -88,7 +95,42 @@ def evaluate():
         "student_code": student_code
     }
 
-    contents = [types.Content(role="user", parts=[types.Part(text=json.dumps(payload))])]
+    feedback = call_gemini(SYSTEM_PROMPT, payload)
+    
+    #keeping track of feedback for use in /class_rating
+    try:
+        dict_feedback = feedback["feedback"]
+        all_ratings["good_feedback"].append(dict_feedback["what_went_well"])
+        all_ratings["bad_feedback"].append(dict_feedback["areas_for_improvement"])
+        all_ratings["ratings"].append(feedback["recommended_rating"])
+        print(all_ratings)
+    except KeyError:
+        print("KeyError. Dictionary likely didn't contain a field. No changes to all_ratings is necessary.")
+    # return render_template("index.html", feedback=json.dumps(feedback, indent=2))
+    # now returns just the feedback as a JSON object
+
+    return jsonify(feedback)
+
+@app.route("/class_rating", methods=["POST"])
+def class_rating():
+    prompt = '''
+    You are an expert code evaluator. I will send a JSON structure of good feedback, bad feedback, and a rating the students in a class have been given.
+    There are 4 ratings levels. (Extensive, convincing, limited, no evidence)
+    I am looking for overall feedback of the how the students did. This will include a summary of what elements the students struggle with, what they are mostly good with,
+    and give the class a 1-10 rating on performance.
+    The response NEEDS to be in the exact JSON structure below.
+    {
+  \"overall_rating\": \"string\",
+  \"students_good\": \"string\",
+  \"students_improve\": \"string\"
+  }
+    '''
+    ai_rating = call_gemini(prompt, all_ratings)
+    return jsonify(ai_rating)
+
+#From evaluate. Moved to be used with class_rating as well
+def call_gemini(prompt, content):
+    contents = [types.Content(role="user", parts=[types.Part(text=json.dumps(content))])]
 
     config = types.GenerateContentConfig(
         temperature=1,
@@ -96,7 +138,7 @@ def evaluate():
         top_k=40,
         max_output_tokens=8192,
         response_mime_type="text/plain",
-        system_instruction=[types.Part(text=SYSTEM_PROMPT)],
+        system_instruction=[types.Part(text=prompt)],
     )
 
     result_text = ""
@@ -115,10 +157,7 @@ def evaluate():
         feedback = json.loads(result_text)
     except json.JSONDecodeError:
         feedback = {"error": "AI returned invalid JSON", "response": result_text}
-
-    # return render_template("index.html", feedback=json.dumps(feedback, indent=2))
-    # now returns just the feedback as a JSON object
-    return jsonify(feedback)
-
+    
+    return feedback
 if __name__ == "__main__":
     app.run()
