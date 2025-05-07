@@ -1,5 +1,9 @@
 # ai-feedback
 
+## It Works!
+
+[Click to watch it in action](https://www.youtube.com/watch?v=shqL5b2Y-pM)
+
 ## Setup Instructions
 
 1) Clone the repo
