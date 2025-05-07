@@ -65,6 +65,49 @@ Evaluation Guidelines
 - If the Student Program contains errors that prevent it from running or being properly evaluated, indicate this in the 'justification' and 'feedback.areas_for_improvement'. If possible, specify the type of error and its location (line number).
 - Use the exact language from the rubric when explaining why something met or did not meet expectations. This helps students connect the feedback directly to their learning goals."""
 
+CLASS_SYSTEM_PROMPT = """You are a teacher evaluating a collection of student feedback on an assignment and providing feedback on class-wide trends and observations. You will be provided with the following inputs in a JSON format:
+
+- \"recommended_rating\": A string value representing the overall rating that always provides a response based on the rubric (e.g., \"4 - Exceeds Expectations\", \"Partially Meets\", etc.).
+- \"justification\": An array of specific, concise justifications that support the rating. Each justification should reference a particular aspect of the student’s code and how it aligns or misaligns with the rubric and exemplar.
+- \"feedback.what_went_well\": A student-friendly explanation of strengths in the code, emphasizing alignment with the rubric.
+- \"feedback.areas_for_improvement\": Actionable suggestions that clearly connect to rubric expectations and highlight opportunities for growth.
+
+Your task is to analyze the class data holistically and provide spedcific trends and actionable steps for a teacher to take with this class
+
+Your output must exactly match this JSON structure:
+
+```
+{
+  \"positive_trends\": [
+    \"string\",
+    \"string\",
+    \"... (additional specific justifications)\"
+  ],
+  \"room_for_growth\": [
+    \"string\",
+    \"string\",
+    \"... (additional specific justifications)\"
+  ],
+  \"next_steps\": [
+    \"string\",
+    \"string\",
+    \"... (additional specific justifications)\"
+  ]
+}
+```
+Field descriptions:
+- \"positive_trends\": An array of specific, concise observations about the strengths of student projects in aggregate. Each trend should reference a specific trend across student feeedback.
+- \"room_for_growth\": An array of specific, concise observations about mistakes or misconceptions in student projects in aggregate. Each trend should reference a specific trend across student feeedback.
+- \"next_steps\": An array of intervention and enrichment strategies that a teacher can implement based on the current class understanding.
+
+Evaluation Guidelines
+- Each item in the array must be a standalone observation or comparison that is objective and evidence-based.
+- Reference specific evidence from the feedback where applicable.
+- Be objective and avoid assumptions about feedback intent.
+- Language should be clear and specific.
+- Always respond with a valid JSON object, properly formatted."""
+
+
 GEMINI_CONFIG = types.GenerateContentConfig(
         temperature=1,
         top_p=0.95,
@@ -82,7 +125,44 @@ def index():
 
 @app.route("/class-recommendations", methods=["POST"])
 def class_recommendations():
-    return {"recommendations": "successful test post"}
+    initialJSON = request.get_json()
+    if initialJSON is None:
+        return jsonify({"error": "Invalid JSON"}), 400
+    classJSON = initialJSON["feedbackData"]
+    if classJSON is None:
+        return jsonify({"error": "Invalid JSON"}), 400
+    
+    contents = [types.Content(role="user", parts=[types.Part(text=json.dumps(classJSON))])]
+
+    conf = types.GenerateContentConfig(
+        temperature=1,
+        top_p=0.95,
+        top_k=40,
+        max_output_tokens=8192,
+        response_mime_type="text/plain",
+        system_instruction=[types.Part(text=CLASS_SYSTEM_PROMPT)],
+    )
+
+    result_text = ""
+    for chunk in client.models.generate_content_stream(
+        model=GEMINI_MODEL,
+        contents=contents,
+        config=conf
+    ):
+        result_text += chunk.text
+        
+    if result_text.strip().startswith("```json"):
+        result_text = result_text.strip()[7:-3].strip()
+
+    try:
+        feedback = json.loads(result_text)
+    except json.JSONDecodeError:
+        feedback = {"error": "AI returned invalid JSON", "response": result_text}
+
+    # return render_template("index.html", feedback=json.dumps(feedback, indent=2))
+    # now returns just the feedback as a JSON object
+    return jsonify(feedback)
+    
 
 
 @app.route("/evaluate", methods=["POST"])
