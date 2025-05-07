@@ -26,7 +26,7 @@ function showStudentEditor(name) {
       <h3>Student Code:</h3>
       <textarea id="studentCode" placeholder="Paste student code here...">${student.code}</textarea>
 
-      <button class="store-btn" onclick="submitToAI()">Submit to AI</button>
+      <button class="store-btn" id="studentButton" onclick="submitToAI()">Submit to AI</button>
 
       <h3>AI Feedback:</h3>
       <pre id="aiFeedback">${student.feedback}</pre>
@@ -54,6 +54,9 @@ function addStudent() {
 
 async function submitToAI() {
   if (!selectedStudent) return;
+
+  document.querySelector("#studentButton").disabled = true;
+  document.querySelector("#studentButton").textContent = "Submitting...";
 
   const code = document.getElementById("studentCode").value.trim();
   const keyConcept = document.getElementById("keyConcept").value.trim();
@@ -90,14 +93,21 @@ async function submitToAI() {
       document.getElementById('aiFeedback').textContent = feedbackText;
       //alert("Student code and rubric submitted to AI successfully!");
 
+      document.querySelector("#studentButton").disabled = false;
+      document.querySelector("#studentButton").textContent = "Submit to AI";
+
   } catch (error) {
       console.error("Failed to get feedback:", error);
       //alert("Failed to fetch AI feedback.  Check the server connection and ensure the /evaluate endpoint is working.");
       document.getElementById('aiFeedback').textContent = "Error fetching feedback.";
+      document.querySelector("#studentButton").disabled = false;
+      document.querySelector("#studentButton").textContent = "Submit to AI";
   }
 }
 
 async function getClassRecommendations(test=false) {
+  document.querySelector("#classButton").disabled = true;
+  document.querySelector("#classButton").textContent = "Submitting...";
   let allFeedback = Object.values(studentData).map(s => s.feedback);
   if(test === true) {
     allFeedback = [
@@ -119,6 +129,9 @@ async function getClassRecommendations(test=false) {
   .then(res => res.json())
   .then(data => {
       console.log(data);
+
+      document.querySelector("#classButton").disabled = false;
+      document.querySelector("#classButton").textContent = "Get Class Recommendations";
   })
   .catch(err => {
       console.error("Failed to get recommendations:", err);
