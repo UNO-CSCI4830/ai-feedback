@@ -65,9 +65,25 @@ Evaluation Guidelines
 - If the Student Program contains errors that prevent it from running or being properly evaluated, indicate this in the 'justification' and 'feedback.areas_for_improvement'. If possible, specify the type of error and its location (line number).
 - Use the exact language from the rubric when explaining why something met or did not meet expectations. This helps students connect the feedback directly to their learning goals."""
 
+GEMINI_CONFIG = types.GenerateContentConfig(
+        temperature=1,
+        top_p=0.95,
+        top_k=40,
+        max_output_tokens=8192,
+        response_mime_type="text/plain",
+        system_instruction=[types.Part(text=SYSTEM_PROMPT)],
+    )
+
+GEMINI_MODEL = "gemini-2.0-flash"
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+
+@app.route("/class-recommendations", methods=["POST"])
+def class_recommendations():
+    return {"recommendations": "successful test post"}
+
 
 @app.route("/evaluate", methods=["POST"])
 def evaluate():
@@ -90,20 +106,11 @@ def evaluate():
 
     contents = [types.Content(role="user", parts=[types.Part(text=json.dumps(payload))])]
 
-    config = types.GenerateContentConfig(
-        temperature=1,
-        top_p=0.95,
-        top_k=40,
-        max_output_tokens=8192,
-        response_mime_type="text/plain",
-        system_instruction=[types.Part(text=SYSTEM_PROMPT)],
-    )
-
     result_text = ""
     for chunk in client.models.generate_content_stream(
-        model="gemini-2.0-flash",
+        model=GEMINI_MODEL,
         contents=contents,
-        config=config
+        config=GEMINI_CONFIG
     ):
         result_text += chunk.text
 
